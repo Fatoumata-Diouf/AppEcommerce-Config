@@ -27,6 +27,6 @@ eureka:
 
 # Proprietes metier RAFRAICHISSABLES a chaud
 library:
-  max-loan-days: 21
+  max-loan-days: 22
   late-fee-per-day: 50
   welcome-message: "Bienvenue dans la page de registre des clients"

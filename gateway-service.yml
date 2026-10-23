@@ -8,6 +8,11 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth-service
+        - uri: lb://AUTH-SERVICE
+        - predicates:
+          - Path=/api/auth/**
+
         - id: client-service
           uri: lb://client-service
           predicates:
@@ -35,3 +40,8 @@ library:
   max-loan-days: 14
   late-fee-per-day: 50
   welcome-message: "Bienvenue dans la page de passarelle"
+
+security:
+  jwt:
+    # ATTENTION : Cette clé DOIT être exactement la même que celle configurée dans votre auth-service
+    secret: "ISI-Master2-2026-TP-Microservices-JWT-Shared-Secret-Change-Me"

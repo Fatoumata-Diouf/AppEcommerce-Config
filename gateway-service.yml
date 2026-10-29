@@ -5,6 +5,11 @@ spring:
   application:
     name: gateway-service
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8180/realms/isi-tp/protocol/openid-connect/certs
   cloud:
     gateway:
       routes:

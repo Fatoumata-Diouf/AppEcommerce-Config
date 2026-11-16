@@ -28,3 +28,45 @@ library:
   max-loan-days: 14
   late-fee-per-day: 50
   welcome-message: "Bienvenue dans la page de registre des commandes de produits"
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      produitService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        permittedNumberOfCallsInHalfOpenState: 3
+        ignoreExceptions:
+          - feign.FeignException$NotFound
+      clientService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        permittedNumberOfCallsInHalfOpenState: 3
+        ignoreExceptions:
+          - feign.FeignException$NotFound
+  retry:
+    instances:
+      produitService:
+        maxAttempts: 3
+        waitDuration: 500ms
+        ignoreExceptions:
+          - feign.FeignException$NotFound
+      clientService:
+        maxAttempts: 3
+        waitDuration: 500ms
+        ignoreExceptions:
+          - feign.FeignException$NotFound
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,circuitbreakers,retries
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true

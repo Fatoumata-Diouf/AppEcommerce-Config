@@ -1,3 +1,4 @@
+
 server:
   port: 8080
 
@@ -10,6 +11,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://keycloak:8180/realms/isi-tp/protocol/openid-connect/certs
+
   cloud:
     gateway:
       routes:
@@ -28,6 +30,26 @@ spring:
           predicates:
             - Path=/commandes/**
 
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
 eureka:
   client:
     service-url:
@@ -39,5 +61,4 @@ eureka:
 library:
   max-loan-days: 14
   late-fee-per-day: 50
-  welcome-message: "Bienvenue dans la page de passarelle"
-
+  welcome-message: "Bienvenue dans la page de passerelle"

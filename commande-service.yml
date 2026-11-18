@@ -20,10 +20,11 @@ spring:
     redis:
       host: redis
       port: 6379
+
   cache:
     type: redis
     redis:
-      time-to-live: 10m
+      time-to-live: 5m
 
 eureka:
   client:
@@ -62,17 +63,19 @@ resilience4j:
         waitDuration: 500ms
         ignoreExceptions:
           - feign.FeignException$NotFound
+          - io.github.resilience4j.circuitbreaker.CallNotPermittedException
       clientService:
         maxAttempts: 3
         waitDuration: 500ms
         ignoreExceptions:
           - feign.FeignException$NotFound
+          - io.github.resilience4j.circuitbreaker.CallNotPermittedException
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,circuitbreakers,retries
+        include: health,info,refresh,metrics,prometheus,circuitbreakers,retries
   endpoint:
     health:
       show-details: always

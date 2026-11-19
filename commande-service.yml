@@ -25,6 +25,16 @@ spring:
     type: redis
     redis:
       time-to-live: 5m
+      
+  cloud:
+    openfeign:
+      micrometer:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 2000
+            readTimeout: 5000
 
 eureka:
   client:
@@ -63,13 +73,15 @@ resilience4j:
         waitDuration: 500ms
         ignoreExceptions:
           - feign.FeignException$NotFound
-          - io.github.resilience4j.circuitbreaker.CallNotPermittedException
+          - sn.isi.commandeservice.exception.ProduitNotFoundException
+          - sn.isi.commandeservice.exception.ServiceIndisponibleException
       clientService:
         maxAttempts: 3
         waitDuration: 500ms
         ignoreExceptions:
           - feign.FeignException$NotFound
-          - io.github.resilience4j.circuitbreaker.CallNotPermittedException
+          - sn.isi.commandeservice.exception.ClientNotFoundException
+          - sn.isi.commandeservice.exception.ServiceIndisponibleException
 
 management:
   endpoints:
